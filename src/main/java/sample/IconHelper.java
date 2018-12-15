@@ -21,7 +21,16 @@ public class IconHelper {
     private static String client_ID = "Rma9CCiBOuilUBlg8nD3Yg4XBm1Va9SH7LD3cbZmqZWoOrd66HBODq8ilw1rfXjN";
     private static String client_secret = "FEH49reZ7xSRJugvHU2wDvvmTbFiD6jkDX7p6ZHTLNNA4C58VzhpPPmAbxW7Id85";
     private static String query;
-    //static final HttpUrl ICONS_REQ;
+
+    public static byte getCount() {
+        return count;
+    }
+
+    public static void setCount(byte count) {
+        IconHelper.count = count;
+    }
+
+    private static byte count = 10;
     static {
 
     }
@@ -39,24 +48,14 @@ public class IconHelper {
     }
     static  void  getIcons(ArrayList<ImageView> icon_url_array,String query) throws IOException {
 
-          //= new HttpUrl.Builder()
-        //                .scheme("https")
-        //                .host("www.iconfinder.com")
-        //                .addPathSegment("api")
-        //                .addPathSegment("v3")
-        //                .addPathSegment("oauth2")
-        //                .addPathSegment("token")
-        //                .build();
-//        for (int i=0;i<100;i++)
-//        {
-            HttpUrl httpUrl = new  HttpUrl.Builder()
+         HttpUrl httpUrl = new  HttpUrl.Builder()
                 .scheme("https")
                 .host("api.iconfinder.com")
                 .addPathSegment("v3")
                 .addPathSegment("icons")
                 .addPathSegment("search")
                 .addEncodedQueryParameter("query",query)
-                .addEncodedQueryParameter("count","50")
+                .addEncodedQueryParameter("count",new Byte(count).toString())
                 .addEncodedQueryParameter("client_id",client_ID)
                 .addEncodedQueryParameter("client_secret",client_secret)
                 .build();
@@ -71,7 +70,6 @@ public class IconHelper {
         if (response.code() == 200) {
             JsonParser parser = new JsonParser();
             JsonObject o = parser.parse(response.body().string()).getAsJsonObject();
-            //accessToken = AccessToken.buildAccessToken(o);
             System.out.println(o.toString());
             JsonArray icons = (JsonArray)o.get("icons");
             for (JsonElement iconInfo:icons) {
@@ -90,7 +88,6 @@ public class IconHelper {
                 }
             }
         }
-        //}
     }
 
     public static void setQuery(String query) {
@@ -100,52 +97,4 @@ public class IconHelper {
     public static String getQuery() {
         return query;
     }
-//    static final HttpUrl TOKEN_REQ_PATH;
-//    static final String CLIENT_ID = "Rma9CCiBOuilUBlg8nD3Yg4XBm1Va9SH7LD3cbZmqZWoOrd66HBODq8ilw1rfXjN";
-//    static final String CLIENT_SECRET = "FEH49reZ7xSRJugvHU2wDvvmTbFiD6jkDX7p6ZHTLNNA4C58VzhpPPmAbxW7Id85";
-//    static {
-//
-//
-//        ICONS_REQ = new HttpUrl.Builder()
-//                .scheme("https")
-//                .host("https://api.iconfinder.com/")
-//                .addPathSegment("v3")
-//                .addPathSegment("icons")
-//                .addPathSegment("search")
-//                .build();
-//
-//
-//
-//        TOKEN_REQ_PATH = new HttpUrl.Builder()
-//                .scheme("https")
-//                .host("www.iconfinder.com")
-//                .addPathSegment("api")
-//                .addPathSegment("v3")
-//                .addPathSegment("oauth2")
-//                .addPathSegment("token")
-//                .build();
-//
-//
-//        baseRequest = new Request.Builder()
-//                .url(TOKEN_REQ_PATH)
-//                .header("Accept", "application/json")
-//                .header("Content-Type", "application/json")
-//                .get()
-//                .build();
-//    }
-//
-//    static Request getRequest() {
-//        return baseRequest.newBuilder()
-//                //.url(url)
-//                //.header("Authorization", "OAuth " + token)
-//                .get()
-//                .tag(null)
-//                .build();
-//
-//
-//    }
-//    static void print()
-//    {
-//
-//    }
 }
